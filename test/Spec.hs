@@ -1,2 +1,6 @@
+import Set01Spec
+
 main :: IO ()
-main = putStrLn "Test suite not yet implemented"
+main = do
+  putStrLn "Set01Spec ---"
+  Set01Spec.run

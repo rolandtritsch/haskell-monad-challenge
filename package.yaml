@@ -26,11 +26,11 @@ library:
   source-dirs: src
 
 executables:
-  example1:
-    main:                Example1.hs
+  example01:
+    main:                Example01.hs
     source-dirs:         app
     ghc-options:
-    - -main-is Example1.main
+    - -main-is Example01.main
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N
@@ -47,3 +47,4 @@ tests:
     - -with-rtsopts=-N
     dependencies:
     - haskell-monad-challenge
+    - hspec
