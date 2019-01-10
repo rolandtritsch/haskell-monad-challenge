@@ -37,7 +37,10 @@ randOdd = generalA (\i -> i * 2 + 1) rand
 randTen :: Gen Integer
 randTen = generalA ((*) 10) rand
 
+generalPair :: Gen a -> Gen b -> Gen (a, b)
+generalPair ra rb s = ((a', b'), s'') where
+  (a', s') = ra s
+  (b', s'') = rb s'
+
 randPair :: Gen (Char, Integer)
-randPair s = ((c', i'), s'') where
-  (c', s') = randLetter s
-  (i', s'') = rand s'
+randPair = generalPair randLetter rand
