@@ -43,4 +43,9 @@ generalPair ra rb s = ((a', b'), s'') where
   (b', s'') = rb s'
 
 randPair :: Gen (Char, Integer)
-randPair = generalPair randLetter rand
+randPair = generalB (,) randLetter rand
+
+generalB :: (a -> b -> c) -> Gen a -> Gen b -> Gen c
+generalB ctor ra rb s = (ctor a' b', s'') where
+  (a', s') = ra s
+  (b', s'') = rb s'
