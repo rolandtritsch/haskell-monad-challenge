@@ -1,6 +1,6 @@
 module Set01 where
 
-import MCPrelude (rand, mkSeed)
+import MCPrelude (Seed, rand, mkSeed, toLetter)
 
 fiveRands :: [Integer]
 fiveRands = go (mkSeed 1) 5 where
@@ -11,3 +11,15 @@ fiveRands = go (mkSeed 1) 5 where
 
 prd :: [Integer] -> Integer
 prd = foldl (*) 1
+
+randLetter :: Seed -> (Char, Seed)
+randLetter s = (c', s') where
+  (i', s') = rand s
+  c' = toLetter i'
+
+threeRandsStr :: String
+threeRandsStr = go (mkSeed 1) 3 where
+  go s 1 = [fst $ randLetter s]
+  go s n = c' : (go s' n') where
+    (c', s') = randLetter s
+    n' = n - 1
