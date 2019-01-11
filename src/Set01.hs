@@ -49,3 +49,22 @@ generalB :: (a -> b -> c) -> Gen a -> Gen b -> Gen c
 generalB ctor ra rb s = (ctor a' b', s'') where
   (a', s') = ra s
   (b', s'') = rb s'
+
+repRandom :: [Gen a] -> Gen [a]
+repRandom [] s = ([], s)
+repRandom (ga:gas) s = (a' : as'', s'') where
+  (a', s') = ga s
+  (as'', s'') = repRandom gas s'
+
+repRandom' :: [Gen a] -> Gen [a]
+repRandom' gas s = foldl apply ([], s) gas where
+  apply (as', s') ga' = (as'', s'') where
+    (ga'', s'') = ga' s'
+    as'' = as' ++ [ga'']
+
+genTwo :: Gen a -> (a -> Gen b) -> Gen b
+genTwo ga f s = f a' s' where
+  (a', s') = ga s
+
+mkGen :: a -> Gen a
+mkGen = (,)

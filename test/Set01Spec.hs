@@ -27,3 +27,13 @@ run = hspec $ do
     it "should return the correct result" $ do
       let (p, _) = randPair (mkSeed 1)
       p `shouldBe` ('l', 282475249)
+
+  describe "repRandom" $ do
+    it "should return the correct result" $ do
+      let (s, _) = repRandom (replicate 3 randLetter) (mkSeed 1)
+      s `shouldBe` "lrf"
+
+  describe "genTwo" $ do
+    it "should return the correct result" $ do
+      let (i, _) = genTwo randTen mkGen (mkSeed 1)
+      i `shouldBe` 168070
