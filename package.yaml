@@ -37,6 +37,17 @@ executables:
     dependencies:
     - haskell-monad-challenge
 
+  example02:
+    main:                Example02.hs
+    source-dirs:         app
+    ghc-options:
+    - -main-is Example02.main
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-monad-challenge
+
 tests:
   haskell-monad-challenge-test:
     main:                Spec.hs
