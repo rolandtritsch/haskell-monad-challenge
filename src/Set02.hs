@@ -69,3 +69,24 @@ fromJust Nothing = error "fromJust: Nothing"
 chain :: (a -> Maybe b) -> Maybe a -> Maybe b
 chain _ Nothing = Nothing
 chain f (Just a) = f a
+
+link :: Maybe a -> (a -> Maybe b) -> Maybe b
+link = flip chain
+
+mkPair :: Maybe a -> Maybe a -> Maybe (a, a)
+mkPair (Just x) (Just y) = Just (x, y)
+mkPair _ _ = Nothing
+
+queryGreek' :: GreekData -> String -> Maybe Double
+queryGreek' database key = result where
+  result = chain (\(x, y) -> divMay (fromIntegral x) (fromIntegral y)) (mkPair max' head')
+  max' = chain maximumMay tail'
+  tail' = chain tailMay values'
+  head' = chain headMay values'
+  values' = lookupMay key database
+
+queryGreek'' :: GreekData -> String -> Maybe Double
+queryGreek'' database key =
+  link (lookupMay key database) (\values' ->
+    link (link (tailMay values') maximumMay) (\max' ->
+      link (headMay values') (\head' -> divMay (fromIntegral max') (fromIntegral head'))))
