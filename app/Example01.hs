@@ -11,7 +11,9 @@ import Set01 (
   randEven,
   randOdd,
   randTen,
-  randPair
+  randPair,
+  genTwo,
+  mkGen
   )
 
 main :: IO ()
@@ -24,3 +26,5 @@ main = do
   printf "%d\n" (e * o * t)
   let (p, _) = randPair (mkSeed 1)
   printf "%s\n" (show p)
+  let (i, _) = genTwo randTen mkGen (mkSeed 1)
+  printf "%d\n" i
