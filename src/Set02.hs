@@ -65,3 +65,7 @@ isNothing _ = False
 fromJust :: Maybe a -> a
 fromJust (Just a) = a
 fromJust Nothing = error "fromJust: Nothing"
+
+chain :: (a -> Maybe b) -> Maybe a -> Maybe b
+chain _ Nothing = Nothing
+chain f (Just a) = f a

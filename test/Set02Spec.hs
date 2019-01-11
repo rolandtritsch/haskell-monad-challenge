@@ -11,7 +11,10 @@ import MCPrelude (
 
 import Set02 (
   Maybe(..),
-  queryGreek
+  queryGreek,
+  tailMay,
+  maximumMay,
+  chain
   )
 
 run :: IO ()
@@ -29,3 +32,7 @@ run = hspec $ do
       queryGreek greekDataB "chi" `shouldBe` Just 9.095238095238095
       queryGreek greekDataB "psi" `shouldBe` Nothing
       queryGreek greekDataB "omega" `shouldBe` Just 24.0
+
+  describe "chain" $ do
+    it "should return the correct result(s)" $ do
+      chain maximumMay (tailMay [10, 8, 9, 7]) `shouldBe` Just 9
