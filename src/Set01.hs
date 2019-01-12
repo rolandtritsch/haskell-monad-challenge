@@ -38,33 +38,33 @@ randTen :: Gen Integer
 randTen = generalA ((*) 10) rand
 
 generalPair :: Gen a -> Gen b -> Gen (a, b)
-generalPair ra rb s = ((a', b'), s'') where
-  (a', s') = ra s
-  (b', s'') = rb s'
+generalPair rx ry s = ((x', y'), s'') where
+  (x', s') = rx s
+  (y', s'') = ry s'
 
 randPair :: Gen (Char, Integer)
 randPair = generalB (,) randLetter rand
 
 generalB :: (a -> b -> c) -> Gen a -> Gen b -> Gen c
-generalB ctor ra rb s = (ctor a' b', s'') where
-  (a', s') = ra s
-  (b', s'') = rb s'
+generalB ctor rx ry s = (ctor x' y', s'') where
+  (x', s') = rx s
+  (y', s'') = ry s'
 
 repRandom :: [Gen a] -> Gen [a]
 repRandom [] s = ([], s)
-repRandom (ga:gas) s = (a' : as'', s'') where
-  (a', s') = ga s
-  (as'', s'') = repRandom gas s'
+repRandom (gx:gxs) s = (x' : xs'', s'') where
+  (x', s') = gx s
+  (xs'', s'') = repRandom gxs s'
 
 repRandom' :: [Gen a] -> Gen [a]
-repRandom' gas s = foldl apply ([], s) gas where
-  apply (as', s') ga' = (as'', s'') where
-    (ga'', s'') = ga' s'
-    as'' = as' ++ [ga'']
+repRandom' gxs s = foldl apply ([], s) gxs where
+  apply (xs', s') gx' = (xs'', s'') where
+    (gx'', s'') = gx' s'
+    xs'' = xs' ++ [gx'']
 
 genTwo :: Gen a -> (a -> Gen b) -> Gen b
-genTwo ga f s = f a' s' where
-  (a', s') = ga s
+genTwo gx f s = f x' s' where
+  (x', s') = gx s
 
 mkGen :: a -> Gen a
 mkGen = (,)
