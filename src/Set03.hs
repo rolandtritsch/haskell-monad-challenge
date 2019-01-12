@@ -15,3 +15,15 @@ allPairs'' (x:xs) ys = allPair x ys ++ allPairs xs ys
 allPair :: a -> [b] -> [(a,b)]
 allPair _ [] = []
 allPair x' (y':ys') = (x', y') : allPair x' ys'
+
+data Card = Card {
+  rank :: Int,
+  suite :: String
+  }
+
+instance Show Card where
+  show (Card r s)  = (show r) ++ s
+
+allCards :: [Int] -> [String] -> [Card]
+allCards ranks suites = map mkCard $ allPairs'' ranks suites where
+  mkCard (r, s) = Card r s
