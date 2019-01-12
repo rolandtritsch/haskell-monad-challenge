@@ -159,3 +159,19 @@ tailMin xs = transMaybe' minimum (tailMay xs)
 
 tailMax :: Ord a => [a] -> Maybe a
 tailMax xs = transMaybe' maximum (tailMay xs)
+
+tailMin' :: Ord a => [a] -> Maybe(Maybe a)
+tailMin' xs = transMaybe' minimumMay (tailMay xs)
+
+tailMax' :: Ord a => [a] -> Maybe(Maybe a)
+tailMax' xs = transMaybe' maximumMay (tailMay xs)
+
+combine :: Maybe(Maybe a) -> Maybe a
+combine (Just(Just x)) = Just x
+combine _ = Nothing
+
+tailMin'' :: Ord a => [a] -> Maybe a
+tailMin'' xs = combine $ transMaybe' minimumMay (tailMay xs)
+
+tailMax'' :: Ord a => [a] -> Maybe a
+tailMax'' xs = combine $ transMaybe' maximumMay (tailMay xs)

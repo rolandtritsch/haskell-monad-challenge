@@ -80,3 +80,15 @@ run = hspec $ do
       tailSum [1, 2, 3] `shouldBe` Just 5
       tailSum' [1, 2, 3] `shouldBe` Just 5
       tailSum'' [1, 2, 3] `shouldBe` Just 5
+
+  describe "tailMin" $ do
+    it "should return the correct result(s)" $ do
+      tailMin [0, 2, 3, 1] `shouldBe` Just 1
+      tailMin' [0, 2, 3, 1] `shouldBe` Just(Just 1)
+      tailMin'' [0, 2, 3, 1] `shouldBe` Just 1
+
+  describe "tailMax" $ do
+    it "should return the correct result(s)" $ do
+      tailMax [0, 2, 3, 1] `shouldBe` Just 3
+      tailMax' [0, 2, 3, 1] `shouldBe` Just(Just 3)
+      tailMax'' [0, 2, 3, 1] `shouldBe` Just 3
