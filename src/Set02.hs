@@ -17,11 +17,11 @@ instance Eq a => Eq (Maybe a) where
 
 headMay :: [a] -> Maybe a
 headMay [] = Nothing
-headMay (a:_) = Just a
+headMay (x:_) = Just x
 
 tailMay :: [a] -> Maybe [a]
 tailMay [] = Nothing
-tailMay (_:as) = Just as
+tailMay (_:xs) = Just xs
 
 lookupMay :: Eq a => a -> [(a, b)] -> Maybe b
 lookupMay _ [] = Nothing
@@ -35,11 +35,11 @@ divMay x y = Just (x / y)
 
 maximumMay :: Ord a => [a] -> Maybe a
 maximumMay [] = Nothing
-maximumMay as = Just (maximum as)
+maximumMay xs = Just (maximum xs)
 
 minimumMay :: Ord a => [a] -> Maybe a
 minimumMay [] = Nothing
-minimumMay as = Just (minimum as)
+minimumMay xs = Just (minimum xs)
 
 queryGreek :: GreekData -> String -> Maybe Double
 queryGreek database key = result where
@@ -63,12 +63,12 @@ isNothing Nothing = True
 isNothing _ = False
 
 fromJust :: Maybe a -> a
-fromJust (Just a) = a
+fromJust (Just x) = x
 fromJust Nothing = error "fromJust: Nothing"
 
 chain :: (a -> Maybe b) -> Maybe a -> Maybe b
 chain _ Nothing = Nothing
-chain f (Just a) = f a
+chain f (Just x) = f x
 
 link :: Maybe a -> (a -> Maybe b) -> Maybe b
 link = flip chain
@@ -89,4 +89,35 @@ queryGreek'' :: GreekData -> String -> Maybe Double
 queryGreek'' database key =
   link (lookupMay key database) (\values' ->
     link (link (tailMay values') maximumMay) (\max' ->
-      link (headMay values') (\head' -> divMay (fromIntegral max') (fromIntegral head'))))
+      link (headMay values') (\head' ->
+        divMay (fromIntegral max') (fromIntegral head'))))
+
+salaries :: [(String, Integer)]
+salaries = [
+  ("alice", 105000),
+  ("bob", 90000),
+  ("carol", 85000)
+  ]
+
+plusMay :: (Num a) => Maybe a -> Maybe a -> Maybe a
+plusMay (Just x) (Just y) = Just (x + y)
+plusMay _ _ = Nothing
+
+addSalaries :: [(String, Integer)] -> String -> String -> Maybe Integer
+addSalaries database key key' = plusMay value value' where
+  value = lookupMay key database
+  value' = lookupMay key' database
+
+addSalaries' :: [(String, Integer)] -> String -> String -> Maybe Integer
+addSalaries' database key key' = link (lookupMay key database) (\value ->
+  link (lookupMay key' database) (\value' -> Just (value + value')))
+
+mkMaybe :: a -> Maybe a
+mkMaybe x = Just x
+
+yLink :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
+yLink f (Just x) (Just y) = mkMaybe (f x y)
+yLink _ _ _ = Nothing
+
+addSalaries'' :: [(String, Integer)] -> String -> String -> Maybe Integer
+addSalaries'' database key key' = yLink (+) (lookupMay key database) (lookupMay key' database)

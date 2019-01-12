@@ -9,16 +9,7 @@ import MCPrelude (
   greekDataB
   )
 
-import Set02 (
-  Maybe(..),
-  queryGreek,
-  queryGreek',
-  queryGreek'',
-  tailMay,
-  maximumMay,
-  chain,
-  link
-  )
+import Set02
 
 run :: IO ()
 run = hspec $ do
@@ -71,3 +62,9 @@ run = hspec $ do
   describe "link" $ do
     it "should return the correct result(s)" $ do
       link (tailMay [10, 8, 9, 7]) maximumMay `shouldBe` Just 9
+
+  describe "addSalaries" $ do
+    it "should return the correct result(s)" $ do
+      addSalaries salaries "alice" "carol" `shouldBe` Just 190000
+      addSalaries' salaries "alice" "carol" `shouldBe` Just 190000
+      addSalaries'' salaries "alice" "carol" `shouldBe` Just 190000
