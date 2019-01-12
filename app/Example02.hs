@@ -6,17 +6,17 @@ import MCPrelude (
   greekDataB
   )
 
-import Set02 (
-  queryGreek,
-  fromJust,
-  tailMay,
-  maximumMay,
-  chain
-  )
+import Set02
 
 main :: IO ()
 main = do
-  let d = fromJust $ queryGreek greekDataB "chi"
-  printf "%f\n" d
   let m :: Integer; m = fromJust $ chain maximumMay (tailMay ([10, 8, 9, 7]))
   printf "%d\n" m
+  let d = fromJust $ queryGreek'' greekDataB "chi"
+  printf "%f\n" d
+  let s = fromJust $ addSalaries'' salaries "alice" "carol"
+  printf "%d\n" s
+  let tp :: Integer; tp = fromJust $ tailProd [1, 2, 3]
+  printf "%d\n" tp
+  let ts :: Integer; ts = fromJust $ tailSum [1, 2, 3]
+  printf "%d\n" ts

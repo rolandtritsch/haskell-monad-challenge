@@ -68,3 +68,15 @@ run = hspec $ do
       addSalaries salaries "alice" "carol" `shouldBe` Just 190000
       addSalaries' salaries "alice" "carol" `shouldBe` Just 190000
       addSalaries'' salaries "alice" "carol" `shouldBe` Just 190000
+
+  describe "tailProd" $ do
+    it "should return the correct result(s)" $ do
+      tailProd [1, 2, 3] `shouldBe` Just 6
+      tailProd' [1, 2, 3] `shouldBe` Just 6
+      tailProd'' [1, 2, 3] `shouldBe` Just 6
+
+  describe "tailSum" $ do
+    it "should return the correct result(s)" $ do
+      tailSum [1, 2, 3] `shouldBe` Just 5
+      tailSum' [1, 2, 3] `shouldBe` Just 5
+      tailSum'' [1, 2, 3] `shouldBe` Just 5

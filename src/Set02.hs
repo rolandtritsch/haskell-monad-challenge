@@ -99,21 +99,22 @@ salaries = [
   ("carol", 85000)
   ]
 
-plusMay :: (Num a) => Maybe a -> Maybe a -> Maybe a
-plusMay (Just x) (Just y) = Just (x + y)
+mkMaybe :: a -> Maybe a
+mkMaybe x = Just x
+
+plusMay :: Num a => Maybe a -> Maybe a -> Maybe a
+plusMay (Just x) (Just y) = mkMaybe (x + y)
 plusMay _ _ = Nothing
 
 addSalaries :: [(String, Integer)] -> String -> String -> Maybe Integer
-addSalaries database key key' = plusMay value value' where
-  value = lookupMay key database
-  value' = lookupMay key' database
+addSalaries database key key' = plusMay x y where
+  x = lookupMay key database
+  y = lookupMay key' database
 
 addSalaries' :: [(String, Integer)] -> String -> String -> Maybe Integer
-addSalaries' database key key' = link (lookupMay key database) (\value ->
-  link (lookupMay key' database) (\value' -> Just (value + value')))
-
-mkMaybe :: a -> Maybe a
-mkMaybe x = Just x
+addSalaries' database key key' = link (lookupMay key database) (\x ->
+  link (lookupMay key' database) (\y ->
+    mkMaybe (x + y)))
 
 yLink :: (a -> b -> c) -> Maybe a -> Maybe b -> Maybe c
 yLink f (Just x) (Just y) = mkMaybe (f x y)
@@ -121,3 +122,40 @@ yLink _ _ _ = Nothing
 
 addSalaries'' :: [(String, Integer)] -> String -> String -> Maybe Integer
 addSalaries'' database key key' = yLink (+) (lookupMay key database) (lookupMay key' database)
+
+tailProd :: Num a => [a] -> Maybe a
+tailProd [] = Nothing
+tailProd (_:[]) = Just 1
+tailProd (_:rest) = Just (product rest)
+
+tailSum :: Num a => [a] -> Maybe a
+tailSum [] = Nothing
+tailSum (_:[]) = Just 0
+tailSum (_:rest) = Just (sum rest)
+
+transMaybe :: a -> ([a] -> a) -> [a] -> Maybe a
+transMaybe _ _ [] = Nothing
+transMaybe x _ (_:[]) = Just x
+transMaybe x f (_:rest) = Just (f rest)
+
+tailProd' :: Num a => [a] -> Maybe a
+tailProd' xs = transMaybe 1 product xs
+
+tailSum' :: Num a => [a] -> Maybe a
+tailSum' xs = transMaybe 0 sum xs
+
+transMaybe' :: (a -> b) -> Maybe a -> Maybe b
+transMaybe' _ Nothing = Nothing
+transMaybe' f (Just x) = mkMaybe (f x)
+
+tailProd'' :: Num a => [a] -> Maybe a
+tailProd'' xs = transMaybe' product (tailMay xs)
+
+tailSum'' :: Num a => [a] -> Maybe a
+tailSum'' xs = transMaybe' sum (tailMay xs)
+
+tailMin :: Ord a => [a] -> Maybe a
+tailMin xs = transMaybe' minimum (tailMay xs)
+
+tailMax :: Ord a => [a] -> Maybe a
+tailMax xs = transMaybe' maximum (tailMay xs)
