@@ -2,7 +2,7 @@ module Example02 where
 
 import Text.Printf (printf)
 
-import MCPrelude (greekDataB)
+import MCPrelude (greekDataB, salaries)
 
 import Set02
 

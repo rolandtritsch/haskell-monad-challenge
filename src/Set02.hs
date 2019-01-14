@@ -92,12 +92,11 @@ queryGreek'' database key =
       link (headMay values') (\head' ->
         divMay (fromIntegral max') (fromIntegral head'))))
 
-salaries :: [(String, Integer)]
-salaries = [
-  ("alice", 105000),
-  ("bob", 90000),
-  ("carol", 85000)
-  ]
+queryGreek''' :: GreekData -> String -> Maybe Double
+queryGreek''' database key = link (lookupMay key database) values where
+  values vs = link (link (tailMay vs) maximumMay) max where
+    max m = link (headMay vs) head where
+      head h = divMay (fromIntegral m) (fromIntegral h)
 
 mkMaybe :: a -> Maybe a
 mkMaybe x = Just x
@@ -166,8 +165,8 @@ tailMin' xs = transMaybe' minimumMay (tailMay xs)
 tailMax' :: Ord a => [a] -> Maybe(Maybe a)
 tailMax' xs = transMaybe' maximumMay (tailMay xs)
 
-combine :: Maybe(Maybe a) -> Maybe a
-combine (Just(Just x)) = Just x
+combine :: Maybe (Maybe a) -> Maybe a
+combine (Just (Just x)) = Just x
 combine _ = Nothing
 
 tailMin'' :: Ord a => [a] -> Maybe a

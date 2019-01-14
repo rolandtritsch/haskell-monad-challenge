@@ -52,19 +52,30 @@ generalB ctor rx ry s = (ctor x' y', s'') where
 
 repRandom :: [Gen a] -> Gen [a]
 repRandom [] s = ([], s)
-repRandom (gx:gxs) s = (x' : xs'', s'') where
-  (x', s') = gx s
-  (xs'', s'') = repRandom gxs s'
+repRandom (rx:rxs) s = (x' : xs'', s'') where
+  (x', s') = rx s
+  (xs'', s'') = repRandom rxs s'
 
 repRandom' :: [Gen a] -> Gen [a]
-repRandom' gxs s = foldl apply ([], s) gxs where
-  apply (xs', s') gx' = (xs'', s'') where
-    (gx'', s'') = gx' s'
-    xs'' = xs' ++ [gx'']
+repRandom' rxs s = foldl apply ([], s) rxs where
+  apply (xs', s') rx' = (xs'', s'') where
+    (rx'', s'') = rx' s'
+    xs'' = xs' ++ [rx'']
 
 genTwo :: Gen a -> (a -> Gen b) -> Gen b
-genTwo gx f s = f x' s' where
-  (x', s') = gx s
+genTwo rx f s = f x' s' where
+  (x', s') = rx s
 
 mkGen :: a -> Gen a
 mkGen = (,)
+
+generalB' :: (a -> b -> c) -> Gen a -> Gen b -> Gen c
+generalB' ctor rx ry = genTwo rx (\x ->
+  genTwo ry (\y ->
+    mkGen (ctor x y)))
+
+repRandom'' :: [Gen a] -> Gen [a]
+repRandom'' [] = mkGen []
+repRandom'' (rx:rxs) = genTwo rx (\x ->
+  genTwo (repRandom'' rxs) (\y ->
+    mkGen (x : y)))
