@@ -27,6 +27,9 @@ jobs:
       - run:
           name: Run example04
           command: stack build :example04 --exec example04
+      - run:
+          name: Run example05
+          command: stack build :example05 --exec example05
       - save_cache:
           name: Cache Dependencies
           key: cci-haskell-monad-challenge-v1-{{ checksum "package.yaml" }}
@@ -73,6 +76,9 @@ jobs:
       - run:
           name: Run example04
           command: export ETA_JAVA_ARGS="-Xss1024M -Xmx4096M" && etlas run example04
+      - run:
+          name: Run example05
+          command: export ETA_JAVA_ARGS="-Xss1024M -Xmx4096M" && etlas run example05
       - save_cache:
           name: Save Cache Dependencies
           key: cci-eta-aoc-2018-v1-{{ checksum "package.yaml" }}

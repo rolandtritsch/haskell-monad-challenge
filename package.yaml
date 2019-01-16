@@ -1,6 +1,6 @@
-name:                haskell-monad-challenge
+name:                haskell-monad-challenges
 version:             0.1.0.0
-github:              "rolandtritsch/haskell-monad-challenge"
+github:              "rolandtritsch/haskell-monad-challenges"
 license:             BSD3
 author:              "Roland Tritsch"
 maintainer:          "roland@tritsch.org"
@@ -17,7 +17,7 @@ category:            Web
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/rolandtritsch/haskell-monad-challenge#readme>
+description:         Please see the README on GitHub at <https://github.com/rolandtritsch/haskell-monad-challenges#readme>
 
 dependencies:
 - base >= 4.7 && < 5
@@ -35,7 +35,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - haskell-monad-challenge
+    - haskell-monad-challenges
 
   example02:
     main:                Example02.hs
@@ -46,7 +46,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - haskell-monad-challenge
+    - haskell-monad-challenges
 
   example03:
     main:                Example03.hs
@@ -57,7 +57,7 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - haskell-monad-challenge
+    - haskell-monad-challenges
 
   example04:
     main:                Example04.hs
@@ -68,10 +68,21 @@ executables:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - haskell-monad-challenge
+    - haskell-monad-challenges
+
+  example05:
+    main:                Example05.hs
+    source-dirs:         app
+    ghc-options:
+    - -main-is Example05.main
+    - -threaded
+    - -rtsopts
+    - -with-rtsopts=-N
+    dependencies:
+    - haskell-monad-challenges
 
 tests:
-  haskell-monad-challenge-test:
+  haskell-monad-challenges-test:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
@@ -79,5 +90,5 @@ tests:
     - -rtsopts
     - -with-rtsopts=-N
     dependencies:
-    - haskell-monad-challenge
+    - haskell-monad-challenges
     - hspec

@@ -2,6 +2,7 @@ import Set01Spec
 import Set02Spec
 import Set03Spec
 import Set04Spec
+import Set05Spec
 
 main :: IO ()
 main = do
@@ -13,3 +14,5 @@ main = do
   Set03Spec.run
   putStrLn "Set04Spec ---"
   Set04Spec.run
+  putStrLn "Set05Spec ---"
+  Set05Spec.run
