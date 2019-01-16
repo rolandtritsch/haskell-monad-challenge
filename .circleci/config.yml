@@ -14,7 +14,7 @@ jobs:
           command: stack setup
       - run:
           name: Run tests
-          command: stack build :haskell-monad-challenge-test
+          command: stack test
       - run:
           name: Run example01
           command: stack build :example01 --exec example01
