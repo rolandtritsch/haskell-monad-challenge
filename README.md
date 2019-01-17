@@ -10,6 +10,6 @@ You can also compile/run this with [eta](https://eta-lang.org/) ...
 
 * install [etlas](https://github.com/typelead/etlas)
 * run `etlas test`
-* run `etlas run example01
+* run `etlas run example01`
 
 Note: You still need to install stack first and need to run `stack build --dry-run` to create the `cabal` file from `package.yaml` (or you need to install/run `hpack` to create the `cabal` file).
