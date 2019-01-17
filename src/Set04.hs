@@ -9,6 +9,7 @@ import MCPrelude
 class Monad m where
   bind :: m a -> (a -> m b) -> m b
   return :: a -> m a
+  fail :: String -> m a
 
 -- Define the monads
 
@@ -18,22 +19,25 @@ instance Monad Maybe where
   bind Nothing _ = Nothing
   bind (Just x) f = f x
   return = Just
+  fail = undefined
 
 instance Monad [] where
   bind [] _ = []
   bind (x:xs) f = f x ++ bind xs f
   return x = [x]
+  fail = undefined
 
 newtype Gen a = Gen {
   runGen :: Seed -> (a, Seed)
   }
 
 instance Monad Gen where
-  return x = Gen mkGen where
-    mkGen s = (x, s)
   bind gx f = Gen bindGen where
     bindGen s = runGen (f a) s' where
       (a, s') = runGen gx s
+  return x = Gen mkGen where
+    mkGen s = (x, s)
+  fail = undefined
 
 evalGen :: Gen a -> Seed -> a
 evalGen gx s = x where
