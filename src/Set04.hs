@@ -65,6 +65,9 @@ liftM3 f mx my mz = bind mx bindMx where
 (=<<) :: Monad m => (a -> m b) -> m a -> m b
 (=<<) = flip bind
 
+(>>=) :: Monad m => m a -> (a -> m b) -> m b
+(>>=) = bind
+
 join :: Monad m => m (m a) -> m a
 join mmx = bind mmx id
 
